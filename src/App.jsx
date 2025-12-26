@@ -14,6 +14,11 @@ export default function App() {
 
     setName("");
   };
+
+  const handleDeleteItem = (deleteId) => {
+    const affterDelete = users.filter((user) => user.id !== deleteId);
+    setUsers(affterDelete);
+  };
   return (
     <div>
       <div>
@@ -26,7 +31,10 @@ export default function App() {
       </div>
       <ul>
         {users.map((user) => (
-          <li key={user.id}>{user.name}</li>
+          <li key={user.id}>
+            {user.name}{" "}
+            <button onClick={() => handleDeleteItem(user.id)}>Deleted</button>
+          </li>
         ))}
       </ul>
     </div>
