@@ -14,7 +14,6 @@ export default function App() {
 
     setName("");
   };
-
   const handleDeleteItem = (deleteId) => {
     const affterDelete = users.filter((user) => user.id !== deleteId);
     setUsers(affterDelete);
@@ -29,14 +28,24 @@ export default function App() {
         />
         <button onClick={handleAddName}>Add</button>
       </div>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>
-            {user.name}{" "}
-            <button onClick={() => handleDeleteItem(user.id)}>Deleted</button>
-          </li>
-        ))}
-      </ul>
+      {users.length === 0 ? (
+        <>
+          <p>No data found</p>
+        </>
+      ) : (
+        <>
+          <ul>
+            {users.map((user) => (
+              <li key={user.id}>
+                {user.name}{" "}
+                <button onClick={() => handleDeleteItem(user.id)}>
+                  Deleted
+                </button>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 }
