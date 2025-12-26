@@ -7,6 +7,7 @@ export default function AddItem() {
   const [artists, setArtists] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [editingName, setEditingName] = useState("");
+  const [searchText, setSearchText] = useState("");
 
   const addArtists = () => {
     setArtists([...artists, { id: nextId++, name }]);
@@ -41,6 +42,12 @@ export default function AddItem() {
       <h1>Inspiring sculptors:</h1>
 
       <button onClick={handleReverseClick}>Reverse</button>
+      <input
+        type="search"
+        placeholder="Search Item"
+        value={searchText}
+        onChange={(e) => setSearchText(e.target.value)}
+      />
 
       <br />
       <br />
@@ -51,29 +58,37 @@ export default function AddItem() {
       <br />
       <br />
 
-      {artists.map((artist) => (
-        <ul key={artist.id}>
-          <li>
-            {editingId === artist.id ? (
-              <>
-                <input
-                  value={editingName}
-                  onChange={(e) => setEditingName(e.target.value)}
-                />
-                <button onClick={handleSave}>Save</button>
-              </>
-            ) : (
-              <>
-                {artist.name}
-                <button onClick={() => handleDeleteItem(artist.id)}>
-                  Delete
-                </button>
-                <button onClick={() => handleEditItem(artist)}>Edit</button>
-              </>
-            )}
-          </li>
-        </ul>
-      ))}
+      {artists
+        .filter((a) => a.name.toLowerCase().includes(searchText.toLowerCase()))
+        .map((artist) => {
+          return (
+            <>
+              <ul key={artist.id}>
+                <li>
+                  {editingId === artist.id ? (
+                    <>
+                      <input
+                        value={editingName}
+                        onChange={(e) => setEditingName(e.target.value)}
+                      />
+                      <button onClick={handleSave}>Save</button>
+                    </>
+                  ) : (
+                    <>
+                      {artist.name}
+                      <button onClick={() => handleDeleteItem(artist.id)}>
+                        Delete
+                      </button>
+                      <button onClick={() => handleEditItem(artist)}>
+                        Edit
+                      </button>
+                    </>
+                  )}
+                </li>
+              </ul>
+            </>
+          );
+        })}
     </>
   );
 }
